@@ -1,11 +1,11 @@
 body {
+    width: 100%;
+    height: auto;
     margin: 0;
     padding: 0;
 }
-
-
 .main {
-    width: 100ch;
+    width: 100%;
     height: 100vh;
     /*background: #f1f1f1;*/
     background-color: black;
@@ -14,24 +14,14 @@ body {
 }
 
 .left {
-    width: 20%;
+    width: 200px;
     height: 100%;
     background: #f09c9c;
 }
 .right {
-    width: 50%;
+    width: calc(100% - 200px);
     height: 100%;
     background: #fa8585;
     display: flex;
     flex-direction: column;
-}
-.screen {
-    width: 100%;
-    height: 80%;
-    border: 5px solid grey;
-}
-.input-box {
-    width: 100%;
-    height: 20%;
-    border: 5px solid grey;
 }
