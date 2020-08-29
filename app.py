@@ -31,15 +31,30 @@ def addMessage():
         data = request.json
         print(data['sender_id'], data['message'], data['tag'], data['timestamp'])
         cur = mysql.connection.cursor()
-        cur.execute('insert into chats values(%s, %s, %s, %s, %s);',('5', data['sender_id'], data['tag'], data['message'], data['timestamp']))
+        cur.execute('select * from chats;')
+        chats = cur.fetchall()
+        print(chats)
+        cur.execute('insert into chats values(%s, %s, %s, %s, %s);',(len(chats) + 1, data['sender_id'], data['tag'], data['message'], data['timestamp']))
         mysql.connection.commit()
-        #payload = []
-        #content = {}
-        #for result in data:
-        #    content = {'id': result[0], 'sender_id':result[1], 'tag': result[2], 'msg': result[3], 'timestamp': result[4]}
-        #    payload.append(content)
-        #    content = {}
         return "Data Addes susscessfuly!"
+
+@app.route("/getMessages/<tag_name>", methods=['GET', 'POST'])
+def getMessages(tag_name):
+    print(tag_name)
+    cur = mysql.connection.cursor()
+    d = 'select * from chats where tag=\'{}\';'.format(tag_name)
+    print(d)
+    cur.execute('select * from chats where tag=\'{}\';'.format(tag_name))
+    chats = cur.fetchall()
+    payload = []
+    content = {}
+    for result in chats:
+        content = {'id': result[0], 'sender_id':result[1], 'tag': result[2], 'msg': result[3], 'timestamp': result[4]}
+        payload.append(content)
+        content = {}
+    if len(payload) == 0:
+        return "data not found"
+    return jsonify(payload)
 
 if __name__ == "__main__":
     app.run(debug=True)
