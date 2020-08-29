@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './App.css';
+import { Context } from './components/context';
+import Tags from './components/tags';
 
 function App() {
+    const context = useContext(Context);
   return (
     <div className="main">
         <div className="left">
             <div className="tags">
-                <button type="button" className="btn">demo1</button>
-                <button type="button" className="btn">demo2</button>
+                <Tags tags={context.tags} />
             </div>
         </div>
         <div className="right">

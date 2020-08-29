@@ -24,6 +24,15 @@ def main():
         content = {}
     return jsonify(payload)
 
+@app.route("/getTags", methods=["GET"])
+def getTags():
+    cur = mysql.connection.cursor()
+    cur.execute('select distinct(tag) from chats;')
+    data = cur.fetchall()
+    d = [a for b in data for a in b]
+    print(d)
+    return jsonify(d)
+
 @app.route("/addMessage", methods=['GET', 'POST'])
 def addMessage():
     if request.method == 'POST':
