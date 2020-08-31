@@ -1,34 +1,26 @@
 import React, { useContext } from 'react';
 import './App.css';
+import Main from './components/Main';
+import Login from './components/Login';
 import { Context } from './components/context';
-import Tags from './components/tags';
-import Messages from './components/messages';
-import Input from './components/input';
+import { Route, Switch } from 'react-router-dom';
 
 function App() {
     const context = useContext(Context);
     console.log(context);
-    if (context.loading){
-        return <h1>Loading ...</h1>
-    }
-  return (
-    <div className="main">
-        <div className="left">
-            <div className="tags">
-                <Tags tags={context.tags} />
-            </div>
+    return (
+        <div>
+            <Switch>
+                <Route exact path="/">
+                    <Main />
+                </Route>
+                <Route exact path="/login">
+                    <Login />
+                </Route>
+            </Switch>
         </div>
-        <div className="right">
-            <h1>Welcome to chat app!</h1>
-            <div className="screen">
-                <Messages messages={context.messages} />
-            </div>
-            <div className="input-box">
-                <Input />
-            </div>
-        </div>
-    </div>
-  );
+    )
+    
 }
 
 export default App;

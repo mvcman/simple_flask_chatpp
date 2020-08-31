@@ -16,7 +16,7 @@ mysql = MySQL(app)
 @app.route("/", methods=['GET'])
 def main():
     cur = mysql.connection.cursor()
-    cur.execute('select * from chats;')
+    cur.execute('select * from chats11;')
     data = cur.fetchall()
     print(data)
     payload = []
@@ -30,7 +30,7 @@ def main():
 @app.route("/getTags", methods=["GET"])
 def getTags():
     cur = mysql.connection.cursor()
-    cur.execute('select distinct(tag) from chats;')
+    cur.execute('select distinct(tag) from chats1;')
     data = cur.fetchall()
     d = [a for b in data for a in b]
     print(d)
@@ -43,20 +43,20 @@ def addMessage():
         data = request.json
         print(data['sender_id'], data['message'], data['tag'], data['timestamp'])
         cur = mysql.connection.cursor()
-        cur.execute('select * from chats;')
+        cur.execute('select * from chats1;')
         chats = cur.fetchall()
         print(chats)
-        cur.execute('insert into chats values(%s, %s, %s, %s, %s);',(len(chats) + 1, data['sender_id'], data['tag'], data['message'], data['timestamp']))
+        cur.execute('insert into chats1 values(%s, %s, %s, %s, %s);',(len(chats) + 1, data['sender_id'], data['tag'], data['message'], data['timestamp']))
         mysql.connection.commit()
-        return "Data Addes susscessfuly!"
+        return "Data Added susscessfuly!"
 
 @app.route("/getMessages/<tag_name>", methods=['GET', 'POST'])
 def getMessages(tag_name):
     print(tag_name)
     cur = mysql.connection.cursor()
-    d = 'select * from chats where tag=\'{}\';'.format(tag_name)
+    d = 'select * from chats1 where tag=\'{}\';'.format(tag_name)
     print(d)
-    cur.execute('select * from chats where tag=\'{}\';'.format(tag_name))
+    cur.execute('select * from chats1 where tag=\'{}\';'.format(tag_name))
     chats = cur.fetchall()
     payload = []
     content = {}

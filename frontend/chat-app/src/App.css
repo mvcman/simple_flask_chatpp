@@ -18,6 +18,7 @@ body {
     width: 200px;
     height: 100%;
     background: #f09c9c;
+    overflow-y: auto;
 }
 .right {
     width: calc(100% - 200px);
@@ -34,7 +35,7 @@ body {
 }
 .input-box {
     width: 95%;
-    height: 20%;
+    height:10%;
     border: 5px solid grey;
     background: #fff;
 }

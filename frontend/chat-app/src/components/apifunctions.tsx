@@ -21,3 +21,20 @@ export const fetchMessageByTag = async (tagname: string) => {
         return { error: err };
     }
 }
+
+export const addMessage = async (data: any) => {
+    try {
+        const result = await fetch('http://localhost:5000/addMessage', {
+            method: 'post',
+            body: JSON.stringify(data),
+            headers: { 
+                "Content-type": "application/json"
+            } 
+        });
+        //const resp = await result.json();
+        //console.log(resp);
+        return result;
+    } catch(err) {
+        return { error: err };
+    }
+}
