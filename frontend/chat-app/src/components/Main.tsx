@@ -18,7 +18,7 @@ function Main() {
                 </div>
             </div>
             <div className="right">
-                <h1>Welcome to chat app!</h1>
+                <h1 style={{ color: '#fff'}}>Welcome to chat app {context.username}!</h1>
                 <div className="screen">
                     <Messages messages={context.messages} />
                 </div>

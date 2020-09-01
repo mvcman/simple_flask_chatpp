@@ -9,7 +9,8 @@ const Context = React.createContext({
     username: '',
     setTag: (tagname: any) => { return; },
     fetchAll: () => { return; },
-    login: (username: string) => { return; }, 
+    login: (username: string) => { return; },
+    isLogedin: false, 
 });
 
 class Provider extends React.Component {
@@ -19,6 +20,7 @@ class Provider extends React.Component {
         loading: true,
         activeTag: '',
         username: '',
+        isLogedin: false,
     }
 
     componentDidMount(){
@@ -27,12 +29,28 @@ class Provider extends React.Component {
             this.fetchAll();
         }, 5000);
         this.fetchAll();
+        //this.setState({
+        //    username: localStorage.getItem('username'),
+        //    isLogedin: true,
+        //});
+
+        //if (localStorage.getItem('username') !== null){
+        //    this.login(localStorage.getItem('username'));
+        //}
+    }
+
+    componentWillUnmount(){
+        this.setState({
+            isLogedin: false,
+        });
     }
 
     login = (username: string) => {
         this.setState({
             username: username,
+            isLogedin: true,
         });
+        localStorage.setItem('username', username);
     }
 
     fetchAll = async () => {
@@ -63,7 +81,7 @@ class Provider extends React.Component {
 
     render() {
         return (
-            <Context.Provider value={{ messages: this.state.messages, tags: this.state.tags, loading: this.state.loading, activeTag: this.state.activeTag, setTag: this.setTag, fetchAll: this.fetchAll, username: this.state.username, login: this.login }} >
+            <Context.Provider value={{ messages: this.state.messages, tags: this.state.tags, loading: this.state.loading, activeTag: this.state.activeTag, setTag: this.setTag, fetchAll: this.fetchAll, username: this.state.username, login: this.login, isLogedin: this.state.isLogedin }} >
                 {this.props.children}
             </Context.Provider>
         )

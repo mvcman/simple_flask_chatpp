@@ -35,13 +35,13 @@ export default function Messages(props: any) {
     if (props.messages.length === 0){
         return (
             <div style={{ width: 'auto', listStyle: 'none', display: 'flex', flexDirection: 'column'}}>
-                <h1>Nothing to display!</h1>
+                <h1 style={{ color: '#fff' }}>Nothing to display!</h1>
         </div>
         );
     }
     return (
         <div style={{ width: 'auto', listStyle: 'none', display: 'flex', flexDirection: 'column'}}>
-            {props.messages.map((message: any, i: number) => <div style={{ display: 'flex',flexDirection: 'row', justifyContent: 'space-between', backgroundColor: '#f5b7b1'}} key={i + 1}><p style={classes.message}>{message.msg}</p><h6 style={classes.date}>{moment(message.timestamp).format('ll')}</h6></div>)}
+            {props.messages.map((message: any, i: number) => <div style={{ display: 'flex',flexDirection: 'row', justifyContent: 'space-between', backgroundColor: '#f5b7b1'}} key={i + 1}><p style={classes.message}>{message.sender_id} -- {message.msg}</p><h6 style={classes.date}>{moment(message.timestamp).format('ll')}</h6></div>)}
         </div>
     )
 }

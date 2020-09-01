@@ -11,7 +11,7 @@ const classes = {
         color: '#000',
         padding: '0px 5px',
         fontSize: 15,
-        border: '1px solid grey',
+        border: '1px solid #7F8C8D',
     },
     buttonDiv: {
         width: '20%',
@@ -32,13 +32,13 @@ export default function InputBox() {
     const context = useContext(Context);
 
     useEffect(() => {
-        setTagname(context.activeTag)
-    });
+        setTagname(context.activeTag);
+    }, [context.activeTag]);
 
     const sendMessage = async () => {
         console.log('sending message!');
         const data = {
-            sender_id: '12345',
+            sender_id: context.username,
             tag: tag,
             message: message,
             timestamp: new Date()

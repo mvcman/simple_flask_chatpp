@@ -9,14 +9,18 @@ function App() {
     const context = useContext(Context);
     console.log(context);
     return (
-        <div>
+        <div style={{ width: '100%', height: '100%'}}>
             <Switch>
-                <Route exact path="/">
-                    <Main />
-                </Route>
-                <Route exact path="/login">
-                    <Login />
-                </Route>
+                { !context.isLogedin &&
+                    <Route exact path="/">
+                        <Login />
+                    </Route>
+                }
+                { context.isLogedin && 
+                    <Route exact path="/main">
+                        <Main />
+                    </Route>
+                }
             </Switch>
         </div>
     )
