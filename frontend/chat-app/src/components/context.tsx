@@ -1,5 +1,5 @@
 import React from 'react';
-import { getTags, fetchMessageByTag } from './apifunctions';
+import { getTags, fetchMessageByTag, getUsers, deleteUser } from './apifunctions';
 
 const Context = React.createContext({
     messages: [],
@@ -10,7 +10,9 @@ const Context = React.createContext({
     setTag: (tagname: any) => { return; },
     fetchAll: () => { return; },
     login: (username: string) => { return; },
+    logout: () => { return; },
     isLogedin: false, 
+    users: [],
 });
 
 class Provider extends React.Component {
@@ -21,14 +23,17 @@ class Provider extends React.Component {
         activeTag: '',
         username: '',
         isLogedin: false,
+        users: [],
     }
 
     componentDidMount(){
         console.log('Mounted');
         setInterval(() => {
             this.fetchAll();
+            this.fetchUsers();
         }, 5000);
         this.fetchAll();
+        this.fetchUsers();
         //this.setState({
         //    username: localStorage.getItem('username'),
         //    isLogedin: true,
@@ -39,10 +44,18 @@ class Provider extends React.Component {
         //}
     }
 
-    componentWillUnmount(){
+    logout = async () => {
+        console.log("logedout");
+        const data = {
+            username: this.state.username,
+        }
+        const result = await deleteUser(data);
+        console.log(result);
         this.setState({
             isLogedin: false,
+            username: '',
         });
+        localStorage.removeItem('username');
     }
 
     login = (username: string) => {
@@ -67,6 +80,14 @@ class Provider extends React.Component {
         });
     }
 
+    fetchUsers = async () => {
+        const users = await getUsers();
+        console.log(users);
+        this.setState({
+            users: users,
+        });
+    }
+
     getMyTags = async () => {
         const tags = await getTags();
         console.log(tags);
@@ -81,7 +102,19 @@ class Provider extends React.Component {
 
     render() {
         return (
-            <Context.Provider value={{ messages: this.state.messages, tags: this.state.tags, loading: this.state.loading, activeTag: this.state.activeTag, setTag: this.setTag, fetchAll: this.fetchAll, username: this.state.username, login: this.login, isLogedin: this.state.isLogedin }} >
+            <Context.Provider value={{ 
+                messages: this.state.messages, 
+                tags: this.state.tags, 
+                loading: this.state.loading, 
+                activeTag: this.state.activeTag, 
+                setTag: this.setTag, 
+                fetchAll: this.fetchAll, 
+                username: this.state.username, 
+                login: this.login, 
+                isLogedin: this.state.isLogedin, 
+                users: this.state.users,
+                logout: this.logout,
+                }} >
                 {this.props.children}
             </Context.Provider>
         )

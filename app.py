@@ -68,5 +68,37 @@ def getMessages(tag_name):
         return "data not found"
     return jsonify(payload)
 
+@app.route("/fetchUsers", methods=["GET"])
+def fetchUsers():
+    cur = mysql.connection.cursor()
+    query = 'select distinct(username) from users;'
+    cur.execute(query)
+    users = cur.fetchall()
+    print(users)
+    u = [a for b in users for a in b]
+    print(u)
+    return jsonify(u)
+
+@app.route("/addUser", methods=["GET", "POST"])
+def addUser():
+    if request.method == 'POST':
+        print(request.json)
+        data = request.json
+        cur = mysql.connection.cursor()
+        cur.execute('select * from users;')
+        users = cur.fetchall()
+        print(users)
+        cur.execute('insert into users values(%s, %s);',(len(users) + 1, data['username']))
+        mysql.connection.commit()
+        return "User Added susscessfuly!"
+
+@app.route("/deleteUser", methods=["GET", "POST", "DELETE"])
+def deleteUsers():
+    data = request.json
+    cur = mysql.connection.cursor()
+    cur.execute('delete from users where username=\"{}\";'.format(data['username']))
+    mysql.connection.commit()
+    return "Data deleted successfuly!"
+
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Context } from './context';
 import { useHistory } from 'react-router-dom';
+import { addUser } from './apifunctions';
 
 const classes = {
     inputbox: {
@@ -22,12 +23,17 @@ const classes = {
     }
 }
 export default function Login() {
-    const [username, setUsername] = useState<string>(''); 
+    const [username, setUsername] = useState<any>(''); 
     const context = useContext(Context);
     const history = useHistory();
-    const handleLogin = () => {
+    const handleLogin = async () => {
         context.login(username);
+        const data = {
+            username: username,
+        }
+        await addUser(data);
         history.push('/main');
+
     }
     return (
         <div style={{ width: '100%', height: '100vh', display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center', backgroundColor: '#f35858', color: '#fff'}}>
